@@ -1,15 +1,57 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { ConversorService, MoedaService } from '../services';
+import { Conversao, ConversaoResponse, Moeda } from '../models';
 
 @Component({
   selector: 'app-conversor',
   templateUrl: './conversor.component.html',
-  styleUrls: ['./conversor.component.css']
+  styleUrls: ['./conversor.component.css'],
 })
 export class ConversorComponent implements OnInit {
+  private _moedas: Moeda[] = [];
+  private _conversao!: Conversao;
+  private _possuiErro!: boolean;
+  private _conversoResponse!: ConversaoResponse;
+  @ViewChild('conversaoForm', { static: true })
+  conversaoForm!: NgForm;
 
-  constructor() { }
+  constructor(
+    private moedaService: MoedaService,
+    private conversorService: ConversorService
+  ) {}
 
   ngOnInit(): void {
+    this.moedaService
+      .listarTodas()
+      .forEach((moeda) => this._moedas.push(moeda));
+    this.init();
   }
 
+  init(): void {
+    this._conversao = new Conversao('USD', 'BRL', 0);
+    this._possuiErro = false;
+  }
+
+  converter(): void {
+    if (this.conversaoForm.valid) {
+      alert('Convertendo: ' + JSON.stringify(this._conversao));
+    }
+  }
+
+  get moedas(): Moeda[] {
+    return this._moedas;
+  }
+
+  get conversao(): Conversao {
+    return this._conversao;
+  }
+
+  get conversaoResponse(): ConversaoResponse {
+    return this._conversoResponse;
+  }
+
+  get possuiErro() {
+    return this._possuiErro;
+  }
 }

@@ -48,7 +48,8 @@ export class MoedaService {
   ];
 
   listarTodas(): Moeda[] {
-    if (!this.moedas.length) {
+    // se o tamanho do array for zero será falso.
+    if (this.moedas.length) {
       return this.moedas;
     }
 
