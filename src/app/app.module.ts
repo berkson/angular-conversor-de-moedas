@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -6,7 +7,7 @@ import { ConversorModule } from './conversor';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, ConversorModule],
+  imports: [BrowserModule, ConversorModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
 })
