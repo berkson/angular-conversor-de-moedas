@@ -24,8 +24,8 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain(
-      'Conversor de Moedas app is running!'
+    expect(compiled.querySelector('.navbar-header a')?.textContent).toContain(
+      'Conversor de Moedas'
     );
   });
 });
