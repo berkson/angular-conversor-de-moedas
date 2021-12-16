@@ -12,7 +12,7 @@ export class ConversorComponent implements OnInit {
   private _moedas: Moeda[] = [];
   private _conversao!: Conversao;
   private _possuiErro!: boolean;
-  private _conversoResponse!: ConversaoResponse;
+  private _conversaoResponse!: ConversaoResponse;
   @ViewChild('conversaoForm', { static: true })
   conversaoForm!: NgForm;
 
@@ -35,7 +35,12 @@ export class ConversorComponent implements OnInit {
 
   converter(): void {
     if (this.conversaoForm.valid) {
-      alert('Convertendo: ' + JSON.stringify(this._conversao));
+      this.conversorService
+        .converter(this.conversao)
+        .subscribe({
+          next: (response) => (this._conversaoResponse = response),
+          error: (e) => (this._possuiErro = true),
+        });
     }
   }
 
@@ -48,7 +53,7 @@ export class ConversorComponent implements OnInit {
   }
 
   get conversaoResponse(): ConversaoResponse {
-    return this._conversoResponse;
+    return this._conversaoResponse;
   }
 
   get possuiErro() {

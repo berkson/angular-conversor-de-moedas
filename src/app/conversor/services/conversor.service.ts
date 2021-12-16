@@ -9,8 +9,9 @@ import { Observable } from 'rxjs';
 export class ConversorService {
   // Nova url do fixer.io, que adiciona o parâmetro access_key, que é a chave de autenticação
   //private readonly BASE_URL = "http://api.fixer.io/latest";
-  private readonly BASE_URL =
-    'http://data.fixer.io/api/latest?access_key=eba7130a5b2d720ce43eb5fcddd47cc3';
+  // mudança de api para testes devido ao exceder a chave da fixer
+  private readonly BASE_URL = 'https://economia.awesomeapi.com.br/last/';
+  //'http://data.fixer.io/api/latest?access_key=eba7130a5b2d720ce43eb5fcddd47cc3';
   constructor(private http: HttpClient) {}
   /**
    * Realiza a chamada para a API de conversão de moedas.
@@ -20,7 +21,8 @@ export class ConversorService {
    */
   converter(conversao: Conversao): Observable<any> {
     // Na linha abaixo altere a '?' por '&'
-    let params = `&base=${conversao.moedaDe}&symbols=${conversao.moedaPara}`;
+    //let params = `&base=${conversao.moedaDe}&symbols=${conversao.moedaPara}`;
+    let params = `${conversao.moedaDe}-${conversao.moedaPara}`;
     return this.http.get(this.BASE_URL + params);
     // No Angular 6 as duas próximas linha não são mais necessárias
     //.map(response => response.json() as ConversaoResponse)
@@ -40,7 +42,7 @@ export class ConversorService {
     if (conversaoResponse === undefined || conversao.moedaPara === undefined) {
       return 0;
     }
-    return conversaoResponse.rates[conversao.moedaPara];
+    return conversaoResponse.base.high[conversao.moedaPara];
   }
   /**
    * Retorna a cotação de dado uma response.
@@ -56,7 +58,7 @@ export class ConversorService {
     if (conversaoResponse === undefined || conversao.moedaPara === undefined) {
       return '0';
     }
-    return (1 / conversaoResponse.rates[conversao.moedaPara]).toFixed(4);
+    return (1 / conversaoResponse.base.high[conversao.moedaPara]).toFixed(4);
   }
   /**
    * Retorna a data da cotação dado uma response.
@@ -68,6 +70,6 @@ export class ConversorService {
     if (conversaoResponse === undefined) {
       return '';
     }
-    return conversaoResponse.date;
+    return conversaoResponse.base.create_date;
   }
 }
