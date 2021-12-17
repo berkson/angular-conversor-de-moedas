@@ -2,8 +2,8 @@ interface Base {
   code: string;
   codein: string;
   name: string;
-  high: any;
-  low: any;
+  high: number;
+  low: number;
   varBid: string;
   pctChange: string;
   bid: string;
@@ -13,5 +13,5 @@ interface Base {
 }
 
 export class ConversaoResponse {
-  constructor(public base: Base) {}
+  constructor(public base?: Base) {}
 }

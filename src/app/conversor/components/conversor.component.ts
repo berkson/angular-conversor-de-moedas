@@ -12,7 +12,7 @@ export class ConversorComponent implements OnInit {
   private _moedas: Moeda[] = [];
   private _conversao!: Conversao;
   private _possuiErro!: boolean;
-  private _conversaoResponse!: ConversaoResponse;
+  private _conversaoResponse: ConversaoResponse = new ConversaoResponse();
   @ViewChild('conversaoForm', { static: true })
   conversaoForm!: NgForm;
 
@@ -34,13 +34,13 @@ export class ConversorComponent implements OnInit {
   }
 
   converter(): void {
+    let returnedObject = `${this.conversao.moedaDe}${this.conversao.moedaPara}`;
     if (this.conversaoForm.valid) {
-      this.conversorService
-        .converter(this.conversao)
-        .subscribe({
-          next: (response) => (this._conversaoResponse = response),
-          error: (e) => (this._possuiErro = true),
-        });
+      this.conversorService.converter(this.conversao).subscribe({
+        next: (response) =>
+          (this._conversaoResponse.base = response[returnedObject]),
+        error: (e) => (this._possuiErro = true),
+      });
     }
   }
 

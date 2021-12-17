@@ -39,10 +39,14 @@ export class ConversorService {
     conversaoResponse: ConversaoResponse,
     conversao: Conversao
   ): number {
-    if (conversaoResponse === undefined || conversao.moedaPara === undefined) {
+    if (
+      conversaoResponse === undefined ||
+      conversao.moedaPara === undefined ||
+      conversaoResponse.base === undefined
+    ) {
       return 0;
     }
-    return conversaoResponse.base.high[conversao.moedaPara];
+    return conversaoResponse.base.high;
   }
   /**
    * Retorna a cotação de dado uma response.
@@ -55,10 +59,14 @@ export class ConversorService {
     conversaoResponse: ConversaoResponse,
     conversao: Conversao
   ): string {
-    if (conversaoResponse === undefined || conversao.moedaPara === undefined) {
+    if (
+      conversaoResponse === undefined ||
+      conversao.moedaPara === undefined ||
+      conversaoResponse.base === undefined
+    ) {
       return '0';
     }
-    return (1 / conversaoResponse.base.high[conversao.moedaPara]).toFixed(4);
+    return (1 / conversaoResponse.base.high).toFixed(4);
   }
   /**
    * Retorna a data da cotação dado uma response.
@@ -67,7 +75,10 @@ export class ConversorService {
    * @return string
    */
   dataCotacao(conversaoResponse: ConversaoResponse): string {
-    if (conversaoResponse === undefined) {
+    if (
+      conversaoResponse === undefined ||
+      conversaoResponse.base === undefined
+    ) {
       return '';
     }
     return conversaoResponse.base.create_date;

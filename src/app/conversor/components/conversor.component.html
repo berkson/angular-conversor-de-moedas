@@ -5,21 +5,21 @@
 <div class="panel panel-success">
   <div class="panel-heading">Selecione a moeda a ser convertida</div>
   <div class="panel-body text-center">
-    <form class="form-inline" #conversaoForm="ngForm">
+    <form #conversaoForm="ngForm" class="form-inline">
       <input
         type="text"
         name="valor"
         class="form-control text-right"
         placeholder="0"
-        required
-        numero
         [(ngModel)]="conversao.valor"
+        numero
+        required
       />
       <select
         name="moedaDe"
         class="form-control"
-        required
         [(ngModel)]="conversao.moedaDe"
+        required
       >
         <option *ngFor="let moeda of moedas" [value]="moeda.sigla">
           {{ moeda.sigla }} - {{ moeda.descricao }}
@@ -29,8 +29,8 @@
       <select
         name="moedaPara"
         class="form-control"
-        required
         [(ngModel)]="conversao.moedaPara"
+        required
       >
         <option *ngFor="let moeda of moedas" [value]="moeda.sigla">
           {{ moeda.sigla }} - {{ moeda.descricao }}
@@ -40,10 +40,18 @@
         type="submit"
         value="Converter"
         class="btn btn-success"
+        data-toggle="modal"
+        data-target="#modalCotacao"
         (click)="converter()"
         [disabled]="!conversaoForm.form.valid"
       />
-      {{ conversaoResponse | json   }}
     </form>
   </div>
+  <modal-cotacao
+    [id]="'modalCotacao'"
+    [conversaoResponse]="conversaoResponse"
+    [conversao]="conversao"
+    (onConfirm)="init()"
+  >
+  </modal-cotacao>
 </div>
